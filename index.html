@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Mochila Viajera 2.0 - Monstruos en mi Almohada | IED El Pueblo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8f0ff 0%, #d9e4f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1e2a3e;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 245, 0.98);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #cfdfed;
+        }
+
+        .header {
+            background: #2c3e66;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" fill="%23f9d56e" opacity="0.1"><path d="M0,64L80,74.7C160,85,320,107,480,106.7C640,107,800,85,960,80C1120,75,1280,85,1360,90.7L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: cover;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 5px solid #f9c74f;
+        }
+
+        .escudo-svg {
+            width: 80px;
+            height: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            background: white;
+            border-radius: 50%;
+            padding: 5px;
+            box-sizing: content-box;
+        }
+
+        .header-text {
+            flex: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .header-text h1 {
+            font-size: 1.6rem;
+            margin: 5px 0;
+            text-shadow: 2px 2px 0 #1a2a3a;
+        }
+
+        .header-text p {
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e66;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #cbdbe6;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: #fffcf5;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        textarea {
+            border-radius: 20px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f9c74f;
+            box-shadow: 0 0 0 3px rgba(249, 199, 79, 0.2);
+        }
+
+        button {
+            background: #f9c74f;
+            color: #2c3e66;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background: #f5b042;
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: #5e7a9c;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #3e5a7c;
+        }
+
+        .question-card {
+            background: #fefef7;
+            border-left: 8px solid #f9c74f;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .fragmento {
+            background: #f0f4fa;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-family: Georgia, serif;
+            font-size: 0.95rem;
+            border-left: 4px solid #5e7a9c;
+            margin-bottom: 15px;
+            color: #1e2a3e;
+            line-height: 1.4;
+        }
+
+        .fragmento strong {
+            color: #b35f1a;
+        }
+
+        .question-text {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #e9edf2;
+            padding: 8px 15px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .option.selected {
+            background: #f9c74f;
+            color: #1e2a3e;
+            font-weight: bold;
+        }
+
+        .feedback {
+            background: #fef3d6;
+            padding: 15px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .stats {
+            background: #e2e8f0;
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .result-item {
+            margin: 10px 0;
+            padding: 8px;
+            background: #fff2df;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .section { padding: 20px; }
+            .options { flex-direction: column; }
+            .header-text h1 { font-size: 1.2rem; }
+            .escudo-svg { width: 55px; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #5e7a9c;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .ilustration {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 15px 0;
+        }
+
+        .reflection-box {
+            background: #fef7e0;
+            border-radius: 24px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #f9c74f;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="header">
+<img class="escudo" src="EscudoIedElPueblo.jpg" alt="Escudo IED El Pueblo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23b33\'/%3E%3Ctext x=\'50\' y=\'55\' font-size=\'14\' text-anchor=\'middle\' fill=\'white\'%3EIED%3C/text%3E%3C/svg%3E';">        <div class="header-text">
+            <h1>📚 Proyecto Lector IED EL PUEBLO<br>Mochila Viajera 2.0</h1>
+            <p>“Monstruos en mi Almohada” - Luisa Noguera Arrieta</p>
+        </div>
+    </div>
+
+    <div id="mainContent" class="section">
+        <!-- Contenido dinámico -->
+    </div>
+    <footer>
+        🛏️🐛 Comprensión lectora · Reflexión y crecimiento familiar · ¡No dejes que los monstruos se coman tu conocimiento!
+    </footer>
+</div>
+
+<script>
+    // ==================== PREGUNTAS POR NIVEL (basadas en "Monstruos en mi Almohada") ====================
+    const niveles = {
+        literal: {
+            nombre: "Nivel Literal",
+            preguntas: [
+                { 
+                    texto: "¿Qué objeto del colegio le gustaba mucho al narrador?",
+                    opciones: ["La biblioteca", "La cancha de fútbol", "El comedor", "El laboratorio"],
+                    correcta: "B",
+                    fragmento: "¿Dónde están nuestros mejores amigos? En el colegio. ¿Dónde está la cancha de fútbol más pareja y mejor demarcada? En el colegio. ¿Dónde venden los roscones más ricos que te has comido? Pues en el colegio. Y ¿en dónde dejamos de ser unos burros ignorantes? Obviamente en el colegio.",
+                    explicacion: "El narrador menciona con ironía que le encanta el colegio, y destaca especialmente la cancha de fútbol bien demarcada."
+                },
+                { 
+                    texto: "¿Qué hacía el narrador cuando sonaba el despertador?",
+                    opciones: ["Se levantaba de inmediato", "Lo apagaba y esperaba a que su mamá lo levantara", "Lo tiraba contra la pared", "Se volvía a dormir hasta el mediodía"],
+                    correcta: "B",
+                    fragmento: "Mi vida es como la de cualquier niño de mi edad: me despierto cuando suena la alarma de mi reloj, pero sólo lo apago cuando mi mamá entra de mal humor a levantarme. —¿Para qué te compramos el despertador? ¿Qué gracia tiene si de todas maneras tengo que venir a levantarte?",
+                    explicacion: "El niño apaga el despertador y espera a que su mamá lo levante, aunque ella se molesta."
+                },
+                { 
+                    texto: "¿En qué materia el narrador se salvaba de las malas calificaciones?",
+                    opciones: ["Matemáticas", "Lenguaje", "Ciencias", "Educación física"],
+                    correcta: "D",
+                    fragmento: "Sólo me salvé en educación física porque no necesito explicarle a nadie cómo se es el mejor delantero del equipo de la primaria; sólo debo demostrarlo jugando.",
+                    explicacion: "El narrador dice que solo se salva en educación física porque demuestra su habilidad jugando."
+                },
+                { 
+                    texto: "¿Qué le dijo la vocecita dentro de la almohada la primera noche?",
+                    opciones: ["'Deja de llorar, estás inundando mi casa'", "'Estudia más, niño vago'", "'Tengo hambre de conocimientos'", "'Voy a comerme tus sueños'"],
+                    correcta: "A",
+                    fragmento: "Entonces, escuché una vocecita dentro de mi cabeza que decía: - Decía ya deja llorar niño, estás inundando mi casa y peligran mis hijos, para, por favor.",
+                    explicacion: "La voz le pide que pare de llorar porque está inundando la casa (la almohada) y asustando a sus hijos."
+                },
+                { 
+                    texto: "¿Qué usó el niño para ver los monstruos de la almohada?",
+                    opciones: ["Una lupa", "Un microscopio", "Un telescopio", "Un espejo aumentador"],
+                    correcta: "B",
+                    fragmento: "Como pude, porque las manos me temblaban horriblemente, ensamblé las partes y sobre la platina de mi microscopio, puse una motita de lana. Observé muy de cerca... Montones de horripilantes monstruos vivían en una sola mota de mi almohada.",
+                    explicacion: "El niño usó el microscopio que le regalaron en Navidad para observar los ácaros."
+                },
+                { 
+                    texto: "¿Dónde guardó el niño el contenido de la almohada para deshacerse de los monstruos?",
+                    opciones: ["En una caja de cartón", "En una bolsa de plástico negra", "En el armario", "En el jardín"],
+                    correcta: "B",
+                    fragmento: "Busqué una bolsa de plástico negro para la basura y metí en ella el asqueroso contenido de mi almohada, haciéndole un triple nudo ciego para que no escapara.",
+                    explicacion: "Usó una bolsa negra de basura y la anudó fuertemente."
+                },
+                { 
+                    texto: "¿Qué hizo el niño la noche después de deshacerse de los monstruos?",
+                    opciones: ["Ver televisión", "Leer el capítulo 13 de su libro de sociales", "Jugar videojuegos", "Llamar a su amigo González"],
+                    correcta: "B",
+                    fragmento: "Rendido después de semejante faena, me fui a la cama, pero antes de apagar la luz, leí el capítulo 13 de mi libro de sociales, que sería el tema que la profe nos enseñaría al día siguiente.",
+                    explicacion: "Antes de dormir, leyó el capítulo 13 de sociales para que los conocimientos se quedaran en su cabeza."
+                },
+                { 
+                    texto: "¿Qué tema expuso el niño al día siguiente en clase?",
+                    opciones: ["Los sistemas del cuerpo humano", "Los afluentes del río Magdalena", "La independencia de Colombia", "Los animales de la granja"],
+                    correcta: "B",
+                    fragmento: "La profesora llegó saludando alegremente y dijo: —Hoy vamos a hablar de los principales afluentes del río Magdalena. Instintivamente levanté mi mano y le pedí que me dejara exponer el tema.",
+                    explicacion: "El tema era los principales afluentes del río Magdalena."
+                },
+                { 
+                    texto: "¿Qué sintió el narrador al ver nuevamente la 'chispita' en los ojos de Gabriela?",
+                    opciones: ["Indiferencia", "Tristeza", "Felicidad", "Miedo"],
+                    correcta: "C",
+                    fragmento: "Me senté nuevamente y al pasar junto a Gabriela volví a ver en sus ojos esa chispita que me hace feliz.",
+                    explicacion: "La chispita en los ojos de Gabriela le hace feliz."
+                },
+                { 
+                    texto: "¿Qué tipo de almohada le compró finalmente su mamá?",
+                    opciones: ["De lana virgen", "De plumas", "De espuma sintética", "De algodón"],
+                    correcta: "C",
+                    fragmento: "a mi explicación, pero, finalmente, me compró una nueva almohada de espuma sintética donde no se amanan estos molestos y para colmo inteligentes bichos.",
+                    explicacion: "La nueva almohada era de espuma sintética para evitar los ácaros."
+                }
+            ]
+        },
+        inferencial: {
+            nombre: "Nivel Inferencial",
+            preguntas: [
+                { 
+                    texto: "¿Por qué el narrador cree que su hermano mayor lo excluye y le dan mejores cosas?",
+                    opciones: ["Porque su hermano es el favorito", "Porque él es el menor y siempre lo tratan como 'chiquito'", "Porque su hermano gana más dinero", "Porque sus padres son injustos a propósito"],
+                    correcta: "B",
+                    fragmento: "Mi hermano mayor me excluye de sus juegos. Siempre le dan el helado más grande... porque dicen que mi pie crece más rápido y los dejaría muy pronto. Siempre me embolatan con un 'te lo doy cuando seas grande', pero aunque el tiempo pasa, sigo siendo el chiquito.",
+                    explicacion: "A pesar de que pasa el tiempo, siempre lo ven como 'el chiquito', por eso recibe menos."
+                },
+                { 
+                    texto: "¿Qué emoción predominaba en el narrador cuando comenzó a olvidar todo lo estudiado?",
+                    opciones: ["Enojo", "Alegría", "Tristeza y desesperación", "Indiferencia"],
+                    correcta: "C",
+                    fragmento: "Obviamente me puse muy, muy triste. Se me quitaron las ganas de comer y lo más preocupante: ya no me interesaba salir a jugar fútbol. Una noche, ya no aguante más y deje de ser valiente. Recuerdo que lloré como nunca antes en mi vida.",
+                    explicacion: "La tristeza y desesperación lo llevaron a llorar como nunca."
+                },
+                { 
+                    texto: "¿Por qué el niño no fue corriendo a buscar a su mamá cuando escuchó la voz en la almohada?",
+                    opciones: ["Porque no le creería algo tan loco", "Porque tenía miedo de que se rieran de él", "Porque quería resolverlo solo", "Porque la voz le dijo que no lo hiciera"],
+                    correcta: "A",
+                    fragmento: "Me detuve antes de abrir la puerta de su cuarto, porque... ¿cómo le iba a explicar algo tan loco?",
+                    explicacion: "No sabía cómo explicarle a su mamá una situación tan extraña."
+                },
+                { 
+                    texto: "¿Qué significa que la voz de la almohada le dijera 'tu coco está vacío'?",
+                    opciones: ["Que tiene la cabeza hueca", "Que no ha estudiado nada", "Que los monstruos se han comido sus conocimientos", "Que necesita dormir más"],
+                    correcta: "C",
+                    fragmento: "No tuviste que estudiar hoy? Tu coco está vacío! ... Oye, eres mi única fuente de información y la verdad, me gusta lo que encuentro en tu cabeza. —¿Hoy no tienes nada? Debes llenarte de conocimientos en el día, para que yo pueda hacerlos míos en la noche.",
+                    explicacion: "Los monstruos se alimentan de los conocimientos que el niño estudia durante el día."
+                },
+                { 
+                    texto: "¿Por qué el niño decidió leer el capítulo 13 después de botar la almohada?",
+                    opciones: ["Porque era su tarea", "Para comprobar si los conocimientos se quedaban en su cabeza sin los monstruos", "Porque la profesora lo obligaba", "Porque le gustaba leer"],
+                    correcta: "B",
+                    fragmento: "Rendido después de semejante faena, me fui a la cama, pero antes de apagar la luz, leí el capítulo 13 de mi libro de sociales... Luego caí en un profundo sueño. Desperté... comprobé que lo que había leído la noche anterior aún permanecía en mi cabeza.",
+                    explicacion: "Quiso probar que sin los monstruos podía retener la información."
+                },
+                { 
+                    texto: "¿Qué cambio de actitud tuvo el narrador después de resolver su problema?",
+                    opciones: ["Se volvió más perezoso", "Se levantaba temprano, desayunaba rápido y estudiaba", "Dejó de ir al colegio", "Se peleó con Gabriela"],
+                    correcta: "B",
+                    fragmento: "Desperté con el primer timbre de mi reloj y lo apagué de un totazo. Me levanté y corrí al baño antes de que mi mamá me llamara, desayuné rápidamente, recogí mis libros y el almuerzo...",
+                    explicacion: "Tomó la iniciativa de levantarse temprano y organizarse sin que su mamá lo regañara."
+                },
+                { 
+                    texto: "¿Por qué el narrador dice que 'por fin supo adónde iban todos mis conocimientos'?",
+                    opciones: ["Porque los monstruos se los comían", "Porque los tiraba a la basura", "Porque se los daba a su hermano", "Porque los olvidaba por voluntad propia"],
+                    correcta: "A",
+                    fragmento: "Pero por fin supe adónde iban todos mis conocimientos. Absurdo, descabellado e increíble, pero como soy un niño curioso pero no tanto, decidí no averiguar más y ponerle fin a mi problema.",
+                    explicacion: "Descubrió que los monstruos (ácaros) se alimentaban de lo que estudiaba."
+                },
+                { 
+                    texto: "¿Qué enseñanza nos deja la reacción de los compañeros cuando el niño recuperó su rendimiento?",
+                    opciones: ["Que los amigos verdaderos siempre apoyan", "Que el éxito hace que los demás te admiren", "Que los profesores son injustos", "Que Gabriela siempre lo quiso"],
+                    correcta: "B",
+                    fragmento: "Me extendí en el tema más de lo que ella esperaba y al finalizar pidió que me aplaudieran; otra vez fui ejemplo, esta vez de voluntad y superación. Me senté nuevamente y al pasar junto a Gabriela volví a ver en sus ojos esa chispita que me hace feliz.",
+                    explicacion: "Al mejorar, recuperó la admiración de sus compañeros y de Gabriela."
+                },
+                { 
+                    texto: "¿Por qué la mamá finalmente aceptó comprar una almohada de espuma sintética?",
+                    opciones: ["Porque era más barata", "Porque el niño le explicó lo de los ácaros", "Porque la almohada de lana se dañó", "Porque el papá la obligó"],
+                    correcta: "B",
+                    fragmento: "a mi explicación, pero, finalmente, me compró una nueva almohada de espuma sintética donde no se amanan estos molestos y para colmo inteligentes bichos.",
+                    explicacion: "Aunque al principio dudó, después de escuchar la explicación del niño, aceptó comprar la nueva almohada."
+                },
+                { 
+                    texto: "¿Qué mensaje principal quiere transmitir el autor con la moraleja final?",
+                    opciones: ["Que las almohadas de lana son malas", "Que los problemas de aprendizaje pueden tener causas insospechadas y hay que buscar soluciones", "Que los niños no deben llorar", "Que estudiar es inútil"],
+                    correcta: "B",
+                    fragmento: "Si comienzan a tener problemas escolares, sin que ustedes tengan la culpa, no se preocupen, simplemente desaparezcan su almohada. Todos serán más felices, incluyendo a los monstruos que podrán formar su propia colonia en el basurero.",
+                    explicacion: "Invita a buscar soluciones creativas ante los problemas académicos, aunque parezcan extrañas."
+                }
+            ]
+        },
+        critico: {
+            nombre: "Nivel Crítico",
+            preguntas: [
+                { 
+                    texto: "¿Consideras que fue correcto que el narrador ocultara su problema a sus padres y profesores durante tanto tiempo?",
+                    opciones: ["Sí, porque los adultos no lo hubieran entendido", "No, porque así perdió oportunidades de ayuda antes", "Depende, al final lo resolvió solo", "Fue lo mejor porque evitó medicamentos"],
+                    correcta: "B",
+                    fragmento: "Nada lograron saber, porque yo nada podía explicar. Por un tiempo no salí de las oficinas de la coordinadora académica y la psicóloga del colegio...",
+                    explicacion: "Si hubiera hablado antes, quizás le habrían creído o encontrado una solución más rápido."
+                },
+                { 
+                    texto: "¿Qué opinas de la actitud de la mamá cuando el niño le pidió ayuda con la almohada?",
+                    opciones: ["Fue poco comprensiva", "Fue paciente y terminó creyéndole", "Fue indiferente", "Se enojó mucho"],
+                    correcta: "B",
+                    fragmento: "Tuve que confesar que la había dado de baja, porque tenía a mi explicación, pero, finalmente, me compró una nueva almohada de espuma sintética...",
+                    explicacion: "Aunque al principio extrañada, escuchó su explicación y accedió a comprar la nueva almohada."
+                },
+                { 
+                    texto: "¿Crees que la solución de 'desaparecer la almohada' es realista o es una metáfora? ¿Qué representa?",
+                    opciones: ["Es realista, los ácaros comen papel", "Es una metáfora de eliminar distracciones para estudiar mejor", "Es una exageración sin sentido", "Representa la importancia de dormir bien"],
+                    correcta: "B",
+                    fragmento: "Si comienzan a tener problemas escolares... simplemente desaparezcan su almohada.",
+                    explicacion: "La almohada simboliza aquello que impide retener lo aprendido; eliminarlo ayuda a concentrarse."
+                },
+                { 
+                    texto: "¿Qué valor muestra el narrador al exponer el tema voluntariamente al día siguiente?",
+                    opciones: ["Orgullo", "Vergüenza", "Valentía y confianza", "Desinterés"],
+                    correcta: "C",
+                    fragmento: "Instintivamente levanté mi mano y le pedí que me dejara exponer el tema. Me miró gratamente sorprendida...",
+                    explicacion: "Tuvo el valor de poner a prueba su memoria frente a todos, mostrando seguridad."
+                },
+                { 
+                    texto: "¿Por qué crees que el autor incluye personajes como el hermano mayor que se burla y el papá que piensa que es vago?",
+                    opciones: ["Para mostrar que los niños a veces no son comprendidos", "Para hacer más larga la historia", "Para justificar el mal rendimiento", "Para crear un ambiente triste"],
+                    correcta: "A",
+                    fragmento: "Mi hermano mayor se burlaba, mi papá pensaba que yo era un vago. Sólo mamá siguió creyendo en mí...",
+                    explicacion: "Refleja la falta de comprensión familiar hacia los problemas del niño, algo común en la realidad."
+                },
+                { 
+                    texto: "¿Qué crítica social podría identificarse en la frase 'mis amigos se burlan de mí' cuando la mamá lo besa en el paradero?",
+                    opciones: ["Que los niños son crueles con las muestras de cariño", "Que las madres deben ser más discretas", "Que el afecto materno es mal visto entre compañeros", "Que el niño debería avergonzarse"],
+                    correcta: "C",
+                    fragmento: "Mi mamá insiste en sacarme al paradero del bus y despedirme con un beso y aunque debo confesar que me gusta que me mime, no se da cuenta de que ya estoy grande y mis amigos se burlan de mí.",
+                    explicacion: "Muestra cómo la presión social entre pares puede hacer que los niños rechacen demostraciones de afecto."
+                },
+                { 
+                    texto: "¿Estás de acuerdo con que el niño decidiera no investigar más sobre los monstruos? ¿Por qué?",
+                    opciones: ["Sí, porque era peligroso", "No, porque la ciencia es importante", "Sí, porque ya había resuelto su problema", "No, porque debió contarlo a todos"],
+                    correcta: "C",
+                    fragmento: "decidí no averiguar más y ponerle fin a mi problema.",
+                    explicacion: "Una vez resuelto lo esencial, no era necesario profundizar; priorizó su bienestar."
+                },
+                { 
+                    texto: "¿Qué enseñanza sobre la perseverancia nos deja el personaje principal?",
+                    opciones: ["Que rendirse es lo mejor", "Que hay que buscar soluciones aunque parezcan locas", "Que los problemas se solucionan solos", "Que llorar ayuda siempre"],
+                    correcta: "B",
+                    fragmento: "Como pude, porque las manos me temblaban horriblemente, ensamblé las partes... Observé muy de cerca... Busqué una bolsa de plástico negra... leí el capítulo 13...",
+                    explicacion: "A pesar del miedo y la rareza, tomó acción paso a paso para resolver su problema."
+                },
+                { 
+                    texto: "¿Crees que la historia fomenta la lectura y el estudio? ¿Por qué?",
+                    opciones: ["Sí, porque muestra que estudiar trae recompensas", "No, porque los monstruos se comen el conocimiento", "Sí, pero de manera negativa", "Es neutral"],
+                    correcta: "A",
+                    fragmento: "Mis calificaciones saltaron como por arte de magia de la I a la E y se mantuvieron allí el resto del año. Las cosas volvieron a la normalidad y para premiar mi esfuerzo, papá me regaló unos tenis iguales a los de González.",
+                    explicacion: "Al final, el esfuerzo por estudiar y resolver el problema le trajo éxito y recompensas."
+                },
+                { 
+                    texto: "¿Qué mensaje sobre la imaginación infantil se transmite en el libro?",
+                    opciones: ["Que la imaginación es peligrosa", "Que los niños pueden encontrar explicaciones creativas a problemas reales", "Que los adultos nunca entienden la imaginación", "Que los monstruos existen realmente"],
+                    correcta: "B",
+                    fragmento: "Absurdo, descabellado e increíble, pero como soy un niño curioso pero no tanto, decidí no averiguar más y ponerle fin a mi problema.",
+                    explicacion: "El niño usa su imaginación para darle sentido a un problema real (pérdida de memoria) y encuentra una solución creativa."
+                }
+            ]
+        }
+    };
+
+    // Variables de estado
+    let currentUser = { nombre: "", apellido: "", grado: "" };
+    let currentLevel = "literal";
+    let questions = [];
+    let userAnswers = new Array(10).fill(null);
+    let score = 0;
+    let waitingForRetry = false;
+    let incorrectFeedback = [];
+
+    // Estadísticas
+    let totalVisits = 0;
+    let topUser = { nombre: "", apellido: "", visits: 0 };
+
+    function loadStats() {
+        if (localStorage.getItem("totalVisits")) totalVisits = parseInt(localStorage.getItem("totalVisits"));
+        else totalVisits = 0;
+        totalVisits++;
+        localStorage.setItem("totalVisits", totalVisits);
+        if (localStorage.getItem("topUser")) topUser = JSON.parse(localStorage.getItem("topUser"));
+        else topUser = { nombre: "", apellido: "", visits: 0 };
+    }
+
+    function updateTopUser(name, last) {
+        let fullName = (name + " " + last).trim();
+        if (fullName === " ") return;
+        let currentVisits = 0;
+        if (localStorage.getItem("visits_" + fullName)) currentVisits = parseInt(localStorage.getItem("visits_" + fullName));
+        currentVisits++;
+        localStorage.setItem("visits_" + fullName, currentVisits);
+        if (currentVisits > topUser.visits) {
+            topUser = { nombre: name, apellido: last, visits: currentVisits };
+            localStorage.setItem("topUser", JSON.stringify(topUser));
+        }
+    }
+
+    function displayStats() {
+        return `<div class="stats">
+            <span>📊 Visitas totales: ${totalVisits}</span>
+            <span>🏆 Usuario más frecuente: ${topUser.nombre} ${topUser.apellido} (${topUser.visits} visitas)</span>
+        </div>`;
+    }
+
+    function renderStart() {
+        document.getElementById("mainContent").innerHTML = `
+            ${displayStats()}
+            <div class="ilustration">🛏️📖🐛</div>
+            <h2>¡Bienvenido a la aventura lectora!</h2>
+            <p>Vamos a explorar el libro <strong>"Monstruos en mi Almohada"</strong> de Luisa Noguera Arrieta. Responde las preguntas de comprensión y descubre qué le sucedía al niño que olvidaba todo lo estudiado.</p>
+            <div class="form-group">
+                <label> Nombre:</label>
+                <input type="text" id="nombre" placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+                <label> Apellidos:</label>
+                <input type="text" id="apellido" placeholder="Tus apellidos">
+            </div>
+            <div class="form-group">
+                <label>🎓 Grado:</label>
+                <input type="text" id="grado" placeholder="Ej: 4° primaria">
+            </div>
+            <button id="startBtn">🚀 Comenzar prueba</button>
+        `;
+        document.getElementById("startBtn").addEventListener("click", () => {
+            let nombre = document.getElementById("nombre").value.trim();
+            let apellido = document.getElementById("apellido").value.trim();
+            let grado = document.getElementById("grado").value.trim();
+            if (!nombre || !apellido || !grado) {
+                alert("Por favor completa todos los campos");
+                return;
+            }
+            currentUser = { nombre, apellido, grado };
+            updateTopUser(nombre, apellido);
+            currentLevel = "literal";
+            waitingForRetry = false;
+            loadLevel(currentLevel);
+        });
+    }
+
+    function loadLevel(levelKey) {
+        const levelData = niveles[levelKey];
+        questions = levelData.preguntas;
+        userAnswers = new Array(10).fill(null);
+        score = 0;
+        incorrectFeedback = [];
+        renderQuestions(levelKey);
+    }
+
+    function renderQuestions(levelKey) {
+        let levelData = niveles[levelKey];
+        let html = `<h2>📖 ${levelData.nombre}</h2>
+                    ${displayStats()}
+                    <p>Lee atentamente cada fragmento y responde. Necesitas al menos <strong>8 respuestas correctas</strong> para avanzar al siguiente nivel.</p>
+                    <div id="questionsContainer">`;
+        questions.forEach((q, idx) => {
+            let selected = userAnswers[idx] !== null ? userAnswers[idx] : -1;
+            html += `<div class="question-card">
+                        <div class="fragmento">
+                            <strong>📖 Lee este fragmento:</strong><br>
+                            “${q.fragmento}”
+                        </div>
+                        <div class="question-text">${idx+1}. ${q.texto}</div>
+                        <div class="options" id="opts-${idx}">
+                            ${q.opciones.map((opt, optIdx) => {
+                                let letter = String.fromCharCode(65+optIdx);
+                                let isSelected = (selected === optIdx);
+                                return `<div class="option ${isSelected ? 'selected' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">${letter}. ${opt}</div>`;
+                            }).join('')}
+                        </div>
+                    </div>`;
+        });
+        html += `</div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button id="submitLevelBtn">✅ Calificar nivel</button>
+                    <button id="resetLevelBtn" class="btn-secondary">🔄 Reiniciar nivel</button>
+                </div>`;
+        if (waitingForRetry) {
+            html += `<div class="feedback"><strong>❌ No alcanzaste 8 respuestas correctas.</strong> Relee los fragmentos y vuelve a intentarlo.</div>`;
+        }
+        document.getElementById("mainContent").innerHTML = html;
+
+        document.querySelectorAll(".option").forEach(opt => {
+            opt.addEventListener("click", (e) => {
+                let qidx = parseInt(opt.dataset.qidx);
+                let optidx = parseInt(opt.dataset.optidx);
+                userAnswers[qidx] = optidx;
+                renderQuestions(levelKey);
+            });
+        });
+        document.getElementById("submitLevelBtn").addEventListener("click", () => evaluateLevel(levelKey));
+        document.getElementById("resetLevelBtn").addEventListener("click", () => {
+            userAnswers = new Array(10).fill(null);
+            renderQuestions(levelKey);
+        });
+    }
+
+    function evaluateLevel(levelKey) {
+        let correctCount = 0;
+        incorrectFeedback = [];
+        for (let i=0; i<questions.length; i++) {
+            let selectedIdx = userAnswers[i];
+            if (selectedIdx !== null) {
+                let selectedLetter = String.fromCharCode(65+selectedIdx);
+                if (selectedLetter === questions[i].correcta) {
+                    correctCount++;
+                } else {
+                    let correctLetter = questions[i].correcta;
+                    let correctIdx = correctLetter.charCodeAt(0)-65;
+                    let correctText = questions[i].opciones[correctIdx];
+                    incorrectFeedback.push({
+                        pregunta: questions[i].texto,
+                        elegida: questions[i].opciones[selectedIdx],
+                        correcta: correctText,
+                        explicacion: questions[i].explicacion,
+                        fragmento: questions[i].fragmento
+                    });
+                }
+            } else {
+                let correctLetter = questions[i].correcta;
+                let correctIdx = correctLetter.charCodeAt(0)-65;
+                incorrectFeedback.push({
+                    pregunta: questions[i].texto,
+                    elegida: "No respondida",
+                    correcta: questions[i].opciones[correctIdx],
+                    explicacion: questions[i].explicacion,
+                    fragmento: questions[i].fragmento
+                });
+            }
+        }
+        score = correctCount;
+        if (score >= 8) {
+            let nextLevel = "";
+            if (levelKey === "literal") nextLevel = "inferencial";
+            else if (levelKey === "inferencial") nextLevel = "critico";
+            else nextLevel = "completado";
+            
+            if (nextLevel === "completado") {
+                showReflectionActivity();
+            } else {
+                showLevelPassFeedback(nextLevel);
+            }
+        } else {
+            waitingForRetry = true;
+            let feedbackHtml = `<div class="feedback"><h3>❌ No superaste el nivel</h3><p>Obtuviste ${score}/10. Debes obtener al menos 8 para avanzar.</p>`;
+            if (incorrectFeedback.length) {
+                feedbackHtml += `<h4>Revisa tus errores:</h4>`;
+                incorrectFeedback.forEach(err => {
+                    feedbackHtml += `<div class="result-item"><strong>Pregunta:</strong> ${err.pregunta}<br>
+                                    <strong>Tu respuesta:</strong> ${err.elegida}<br>
+                                    <strong>Respuesta correcta:</strong> ${err.correcta}<br>
+                                    <strong>Explicación:</strong> ${err.explicacion}<br>
+                                    <details><summary>📖 Ver fragmento original</summary>“${err.fragmento}”</details></div>`;
+                });
+            }
+            feedbackHtml += `<button id="retryLevelBtn" class="btn-secondary">🔄 Reintentar este nivel</button></div>`;
+            document.getElementById("mainContent").innerHTML = displayStats() + feedbackHtml;
+            document.getElementById("retryLevelBtn").addEventListener("click", () => {
+                waitingForRetry = false;
+                loadLevel(currentLevel);
+            });
+        }
+    }
+
+    function showLevelPassFeedback(nextLevelKey) {
+        let feedbackHtml = `<div class="feedback"><h3>🎉 ¡Felicidades! Superaste el nivel ${niveles[currentLevel].nombre}</h3>
+                            <p>Obtuviste ${score}/10 correctas.</p>`;
+        if (incorrectFeedback.length) {
+            feedbackHtml += `<h4>Revisa tus errores para aprender:</h4>`;
+            incorrectFeedback.forEach(err => {
+                feedbackHtml += `<div class="result-item"><strong>Pregunta:</strong> ${err.pregunta}<br>
+                                <strong>Tu respuesta:</strong> ${err.elegida}<br>
+                                <strong>Correcta:</strong> ${err.correcta}<br>
+                                <strong>Explicación:</strong> ${err.explicacion}<br>
+                                <details><summary>📖 Ver fragmento original</summary>“${err.fragmento}”</details></div>`;
+            });
+        }
+        feedbackHtml += `<button id="nextLevelBtn">🚀 Continuar al siguiente nivel</button>
+                         <button id="sendResultsBtn" class="btn-secondary">📧 Enviar resultados por correo</button></div>`;
+        document.getElementById("mainContent").innerHTML = displayStats() + feedbackHtml;
+        document.getElementById("nextLevelBtn").addEventListener("click", () => {
+            currentLevel = nextLevelKey;
+            waitingForRetry = false;
+            loadLevel(currentLevel);
+        });
+        document.getElementById("sendResultsBtn").addEventListener("click", () => sendEmailResults(currentLevel, score, incorrectFeedback, true));
+    }
+
+    function showReflectionActivity() {
+        let reflectionHtml = `
+            <div class="feedback">
+                <h3>🏆 ¡Felicidades! Has completado los tres niveles de comprensión.</h3>
+                <p>Has descubierto cómo el niño enfrentó sus problemas de aprendizaje. Ahora te invitamos a reflexionar sobre un tema muy importante:</p>
+                <div class="reflection-box">
+                    <label for="reflexion">💬 <strong>¿Por qué crees que la lectura en familia fortalece los vínculos y el aprendizaje?</strong> Escribe tu opinión:</label>
+                    <textarea id="reflexion" rows="6" placeholder="Comparte tu reflexión..."></textarea>
+                </div>
+                <button id="sendReflectionBtn">📧 Enviar resultados y reflexión</button>
+                <button id="restartAfterReflectionBtn" class="btn-secondary">🏠 Volver a inicio</button>
+            </div>
+        `;
+        document.getElementById("mainContent").innerHTML = displayStats() + reflectionHtml;
+        
+        document.getElementById("sendReflectionBtn").addEventListener("click", () => {
+            let reflexionText = document.getElementById("reflexion").value.trim();
+            if (!reflexionText) {
+                alert("Por favor, escribe tu reflexión antes de enviar.");
+                return;
+            }
+            sendFinalResultsWithReflection(reflexionText);
+        });
+        document.getElementById("restartAfterReflectionBtn").addEventListener("click", () => {
+            renderStart();
+        });
+    }
+
+    function sendFinalResultsWithReflection(reflexion) {
+        let resultadosCompletos = `Usuario: ${currentUser.nombre} ${currentUser.apellido}\nGrado: ${currentUser.grado}\n\n`;
+        resultadosCompletos += `✅ COMPLETÓ LOS TRES NIVELES DE COMPRENSIÓN del libro "Monstruos en mi Almohada".\n`;
+        resultadosCompletos += `Nivel Literal: superado\nNivel Inferencial: superado\nNivel Crítico: superado\n\n`;
+        resultadosCompletos += `📝 REFLEXIÓN SOBRE LA LECTURA COMO CRECIMIENTO FAMILIAR:\n${reflexion}\n\n`;
+        resultadosCompletos += `--- Fin del reporte ---`;
+        
+        let subject = `Resultados y reflexión - ${currentUser.nombre} ${currentUser.apellido} - Monstruos en mi Almohada`;
+        window.location.href = `mailto:proyectolectormochila@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(resultadosCompletos)}`;
+        alert("Se abrirá tu cliente de correo para enviar los resultados junto con tu reflexión. ¡Gracias por participar!");
+    }
+
+    function sendEmailResults(level, scoreLevel, incorrectArray, isPartial, customMessage = null) {
+        let subject = `Resultados Proyecto Lector - ${currentUser.nombre} ${currentUser.apellido}`;
+        let body = `Estudiante: ${currentUser.nombre} ${currentUser.apellido}\nGrado: ${currentUser.grado}\n`;
+        if (customMessage) {
+            body += customMessage;
+        } else {
+            body += `Nivel evaluado: ${niveles[level]?.nombre || level}\nPuntaje: ${scoreLevel}/10\n\n`;
+            if (incorrectArray.length) {
+                body += `Errores y correcciones:\n`;
+                incorrectArray.forEach(err => {
+                    body += `- Pregunta: ${err.pregunta}\n  Tu respuesta: ${err.elegida}\n  Correcta: ${err.correcta}\n  Explicación: ${err.explicacion}\n  Fragmento: ${err.fragmento}\n\n`;
+                });
+            } else {
+                body += `¡Sin errores! Excelente comprensión.\n`;
+            }
+        }
+        body += `\n--- Fin del reporte ---`;
+        window.location.href = `mailto:proyectolectormochila@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        alert("Se abrirá tu cliente de correo para enviar los resultados. Si no se abre, copia el contenido manualmente.");
+    }
+
+    // Inicialización
+    loadStats();
+    renderStart();
+</script>
+</body>
+</html>
